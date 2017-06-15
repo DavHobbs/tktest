@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams , Slides} from 'ionic-angular';
-
+import { ResultsPage } from '../results/results';
 /**
  * Generated class for the QuestionPage page.
  *
@@ -408,9 +408,22 @@ export class QuestionPage {
   
     }
     
-      nextSlide() {
-      this.slides.lockSwipes(false);
-      this.slides.slideTo(this.slides.getActiveIndex() + 1);
-      this.slides.lockSwipes(true);
+      nextSlide(option) {
+        this.testAnswers[option.Style]++;
+        if(this.slides.getActiveIndex() + 1 !== 30) {
+            this.slides.lockSwipes(false);
+            this.slides.slideTo(this.slides.getActiveIndex() + 1);
+            this.slides.lockSwipes(true);
+        } else {
+        //finished the test, move onto the results
+        let tests: any = JSON.parse(window.localStorage.getItem("tests")) || [];
+        this.testAnswers.createDate = new Date().toISOString();
+        tests.push(this.testAnswers);
+        window.localStorage.setItem("tests", JSON.stringify(tests));
+        this.navCtrl.setRoot(ResultsPage, {
+            test: this.testAnswers,
+            showHome: true
+        });
+        }
     }
   }
