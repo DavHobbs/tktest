@@ -21,10 +21,15 @@ export class ResultsPage {
   showHome: boolean = false;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
-
+ toLobby(){
+   this.navCtrl.push(LobbyPage);
+ } 
   ionViewDidLoad() {
-    this.test = this.navParams.get("test");
+    
     console.log('ionViewDidLoad ResultsPage');
+    this.test = this.navParams.get("test");
+    this.showHome = this.navParams.get("showHome");
+    
     
     this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: 'bar',
